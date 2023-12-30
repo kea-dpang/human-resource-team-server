@@ -2,11 +2,11 @@ package kea.dpang.hrserver.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import kea.dpang.hrserver.entity.Employee;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 public class EmployeeResponseDto {
 
     @Schema(example = "1", requiredProperties = "true", description = "사원 번호")
