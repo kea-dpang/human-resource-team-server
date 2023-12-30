@@ -1,13 +1,13 @@
 package kea.dpang.hrserver.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
 public class CreateEmployeeDto {
 
     @Schema(example = "namsh1125@dpang.com", requiredProperties = "true", description = "사원 이메일")
