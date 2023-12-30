@@ -38,7 +38,7 @@ class EmployeeControllerUnitTest {
     }
 
     @Test
-    void testCreateEmployee() throws Exception {
+    void 사원_생성() throws Exception {
         // POST 요청을 수행하고 HTTP 상태 코드가 201 (Created)인지 검증한다.
         mockMvc.perform(post("/employees")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -48,7 +48,7 @@ class EmployeeControllerUnitTest {
 
 
     @Test
-    void testGetEmployee() throws Exception {
+    void 사원_조회() throws Exception {
         // GET 요청을 수행하고 HTTP 상태 코드가 200 (OK)인지 검증한다.
         mockMvc.perform(get("/employees/1")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -56,7 +56,7 @@ class EmployeeControllerUnitTest {
     }
 
     @Test
-    void testUpdateEmployee() throws Exception {
+    void 사원_수정() throws Exception {
         // PUT 요청을 수행하고 HTTP 상태 코드가 200 (OK)인지 검증한다.
         mockMvc.perform(put("/employees/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -65,7 +65,7 @@ class EmployeeControllerUnitTest {
     }
 
     @Test
-    void testDeleteEmployee() throws Exception {
+    void 사원_삭제() throws Exception {
         // DELETE 요청을 수행하고 HTTP 상태 코드가 204 (No Content)인지 검증한다.
         mockMvc.perform(delete("/employees/1")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -73,7 +73,7 @@ class EmployeeControllerUnitTest {
     }
 
     @Test
-    void testIsEmployeeExists() throws Exception {
+    void 사원_존재_여부_확인() throws Exception {
         // GET 요청을 수행하고 HTTP 상태 코드가 200 (OK)인지 검증한다.
         mockMvc.perform(get("/employees/exists/1?email=test@test.com&name=test")
                         .contentType(MediaType.APPLICATION_JSON))

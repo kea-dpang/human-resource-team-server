@@ -34,7 +34,7 @@ class EmployeeServiceImplUnitTest {
     }
 
     @Test
-    public void createEmployeeTest() {
+    public void 사원_추가_1() {
         // Given : 새로운 직원의 정보가 주어졌을 때
         CreateEmployeeDto dto = new CreateEmployeeDto("test@test.com", "test", LocalDate.now());
         Employee employee = Employee.builder()
@@ -55,7 +55,7 @@ class EmployeeServiceImplUnitTest {
     }
 
     @Test
-    public void getEmployeeTest() {
+    public void 사원_조회_1() {
         // Given : 특정 아이디(1)를 가진 직원을
         Employee employee = Employee.builder()
                 .id(1)
@@ -76,7 +76,17 @@ class EmployeeServiceImplUnitTest {
     }
 
     @Test
-    public void updateEmployeeTest() {
+    public void 사원_조회_2() {
+        // Given : 사원이 존재하지 않을 때
+        when(employeeRepository.findById(any())).thenReturn(Optional.empty());
+
+        // When : 특정 아이디(1)를 가진 직원을 조회하는 메소드를 실행하면
+        // Then : MemberNotFoundException 예외가 발생해야 한다
+        assertThrows(MemberNotFoundException.class, () -> employeeService.getEmployee(1));
+    }
+
+    @Test
+    public void 사원_수정_1() {
         // Given : 특정 아이디(1)를 가진 직원의 정보를 수정하려고 할 때
         String beforeEmail = "test@test.com";
         String beforeName = "test";
@@ -107,7 +117,7 @@ class EmployeeServiceImplUnitTest {
     }
 
     @Test
-    public void deleteEmployeeTest() {
+    public void 사원_삭제_1() {
         // Given : 아이디(1)를 가진 직원이 존재할 때
         when(employeeRepository.existsById(1)).thenReturn(true);
 
@@ -120,7 +130,17 @@ class EmployeeServiceImplUnitTest {
     }
 
     @Test
-    public void isEmployeeExistsTest() {
+    public void 사원_삭제_2() {
+        // Given : 특정 아이디(1)를 가진 직원이 존재하지 않을 때
+        when(employeeRepository.existsById(1)).thenReturn(false);
+
+        // When : 특정 아이디(1)를 가진 직원을 삭제하는 메소드를 실행
+        // Then : MemberNotFoundException 예외가 발생해야 한다.
+        assertThrows(MemberNotFoundException.class, () -> employeeService.deleteEmployee(1));
+    }
+
+    @Test
+    public void 사원_존재_여부_확인_1() {
         // Given : 직원이 존재할 때 (사원번호: 1, 이메일: "test@test.com", 이름: "test")
         when(employeeRepository.existsByIdAndEmailAndName(1, "test@test.com", "test")).thenReturn(true);
 
@@ -131,23 +151,4 @@ class EmployeeServiceImplUnitTest {
         assertTrue(result.isExist());
     }
 
-    @Test
-    public void getEmployeeNotFoundTest() {
-        // Given : 사원이 존재하지 않을 때
-        when(employeeRepository.findById(any())).thenReturn(Optional.empty());
-
-        // When : 특정 아이디(1)를 가진 직원을 조회하는 메소드를 실행하면
-        // Then : MemberNotFoundException 예외가 발생해야 한다
-        assertThrows(MemberNotFoundException.class, () -> employeeService.getEmployee(1));
-    }
-
-    @Test
-    public void deleteEmployeeNotFoundTest() {
-        // Given : 특정 아이디(1)를 가진 직원이 존재하지 않을 때
-        when(employeeRepository.existsById(1)).thenReturn(false);
-
-        // When : 특정 아이디(1)를 가진 직원을 삭제하는 메소드를 실행
-        // Then : MemberNotFoundException 예외가 발생해야 한다.
-        assertThrows(MemberNotFoundException.class, () -> employeeService.deleteEmployee(1));
-    }
 }

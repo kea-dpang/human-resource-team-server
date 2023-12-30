@@ -5,6 +5,7 @@ import kea.dpang.hrserver.dto.EmployeeExistsResponseDto;
 import kea.dpang.hrserver.dto.EmployeeResponseDto;
 import kea.dpang.hrserver.dto.UpdateEmployeeDto;
 import kea.dpang.hrserver.entity.Employee;
+import kea.dpang.hrserver.exception.EmailAlreadyExistsException;
 import kea.dpang.hrserver.exception.MemberNotFoundException;
 import kea.dpang.hrserver.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional
     public EmployeeResponseDto createEmployee(CreateEmployeeDto dto) {
+        String email = dto.getEmail();
+
+        // 이미 사용 중인 이메일인지 확인
+        if (employeeRepository.existsByEmail(email)) {
+            throw new EmailAlreadyExistsException(email);
+        }
+
         Employee employee = Employee.builder()
                 .email(dto.getEmail())
                 .name(dto.getName())

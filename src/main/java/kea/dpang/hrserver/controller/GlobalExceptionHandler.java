@@ -1,5 +1,6 @@
 package kea.dpang.hrserver.controller;
 
+import kea.dpang.hrserver.exception.EmailAlreadyExistsException;
 import kea.dpang.hrserver.exception.MemberNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,13 @@ public class GlobalExceptionHandler {
         response.put("message", "존재하지 않는 회원입니다");
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<String> handleEmailAlreadyExistsException(EmailAlreadyExistsException e) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
