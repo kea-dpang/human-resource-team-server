@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition(
         info = @Info(title = "DPANG 인사팀 API 명세서",
                 description = "DPANG 인사팀 API 명세서",
-                version = "1.0.0")
+                version = "1.1.0")
 )
 @RequiredArgsConstructor
 @Configuration

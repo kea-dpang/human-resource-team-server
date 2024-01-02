@@ -1,0 +1,205 @@
+openapi: 3.0.1
+info:
+  title: DPANG 인사팀 API 명세서
+  description: DPANG 인사팀 API 명세서
+  version: 1.1.0
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /employees/{employeeId}:
+    get:
+      tags:
+      - employee-controller
+      summary: 사원 조회
+      description: 등록된 사원 정보를 조회합니다.
+      operationId: getEmployee
+      parameters:
+      - name: employeeId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EmployeeResponseDto'
+    put:
+      tags:
+      - employee-controller
+      summary: 사원 수정
+      description: 기존 사원 정보를 업데이트합니다.
+      operationId: updateEmployee
+      parameters:
+      - name: employeeId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEmployeeDto'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EmployeeResponseDto'
+    delete:
+      tags:
+      - employee-controller
+      summary: 사원 삭제
+      description: 사원 정보를 시스템에서 제거합니다.
+      operationId: deleteEmployee
+      parameters:
+      - name: employeeId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+  /employees:
+    post:
+      tags:
+      - employee-controller
+      summary: 사원 추가
+      description: 새로운 사원 정보를 시스템에 추가합니다.
+      operationId: createEmployee
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEmployeeDto'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EmployeeResponseDto'
+  /employees/exists/{employeeId}:
+    get:
+      tags:
+      - employee-controller
+      summary: 사원 존재 여부 확인
+      description: 특정 사원이 시스템에 존재하는지 확인합니다.
+      operationId: isEmployeeExists
+      parameters:
+      - name: employeeId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      - name: email
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: name
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EmployeeExistsResponseDto'
+components:
+  schemas:
+    UpdateEmployeeDto:
+      type: object
+      properties:
+        email:
+          required:
+          - "true"
+          type: string
+          description: 사원 이메일
+          example: namsh1125@dpang.com
+        name:
+          required:
+          - "true"
+          type: string
+          description: 사원 이름
+          example: 남승현
+    EmployeeResponseDto:
+      type: object
+      properties:
+        id:
+          required:
+          - "true"
+          type: integer
+          description: 사원 번호
+          format: int32
+          example: 1
+        email:
+          required:
+          - "true"
+          type: string
+          description: 사원 이메일
+          example: namsh1125@dpang.com
+        name:
+          required:
+          - "true"
+          type: string
+          description: 사원 이름
+          example: 남승현
+    CreateEmployeeDto:
+      type: object
+      properties:
+        email:
+          required:
+          - "true"
+          type: string
+          description: 사원 이메일
+          example: namsh1125@dpang.com
+        name:
+          required:
+          - "true"
+          type: string
+          description: 사원 이름
+          example: 남승현
+        hireDate:
+          required:
+          - "true"
+          type: string
+          description: 입사 날짜
+          format: date
+          example: 2023-12-30
+    EmployeeExistsResponseDto:
+      type: object
+      properties:
+        isExist:
+          required:
+          - "true"
+          type: boolean
+          description: 사원 존재 여부
+          example: true
